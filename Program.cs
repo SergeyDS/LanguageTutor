@@ -18,7 +18,7 @@ namespace LanguageTutor
 ";
         static void Main(string[] args)
         {
-            Bot = new TelegramBotClient("1077974262:AAFLGbCcG10-1TWHyNALbjwF3JhyJBjOrKY");
+            Bot = new TelegramBotClient("1633184105:AAEpi9GmrGsi4zjmRO_u_KaRPrhoYF3Cd2c");
 
             //var me = Bot.GetMeAsync().Result;
             //Console.WriteLine(me.FirstName);
@@ -31,90 +31,94 @@ namespace LanguageTutor
 
         private static async void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
-            if (e == null || e.Message == null || e.Message.Type != Telegram.Bot.Types.Enums.MessageType.Text)
-                return;
+
+
+
+
+            //if (e == null || e.Message == null || e.Message.Type != Telegram.Bot.Types.Enums.MessageType.Text)
+            //    return;
 
             Console.WriteLine(e.Message.Text);
             Console.WriteLine(e.Message.From.Username);
-            var userId = e.Message.From.Id;
-            var msgArgs = e.Message.Text.Split(' ');
-            String text;
-            switch (msgArgs[0])
-            {
-                case "/start":
-                    text = COMMAND_LIST;
-                    break;
-                case "/add":
-                    text = AddWords(msgArgs);
-                    break;
+            //var userId = e.Message.From.Id;
+            //var msgArgs = e.Message.Text.Split(' ');
+            //String text;
+            //switch (msgArgs[0])
+            //{
+            //    case "/start":
+            //        text = COMMAND_LIST;
+            //        break;
+            //    case "/add":
+            //        text = AddWords(msgArgs);
+            //        break;
 
-                case "/get":
-                    text = GetRandomEngWord(userId);
-                    break;
+            //    case "/get":
+            //        text = GetRandomEngWord(userId);
+            //        break;
 
-                case "/check":
-                    text = CheckWord(msgArgs);
-                    var newWord = GetRandomEngWord(userId);
-                    text = $"{text}\r\nСледующее слово: {newWord}";
-                    break;
+            //    case "/check":
+            //        text = CheckWord(msgArgs);
+            //        var newWord = GetRandomEngWord(userId);
+            //        text = $"{text}\r\nСледующее слово: {newWord}";
+            //        break;
 
-                default:
-                    if (LastWord.ContainsKey(userId))
-                    {
-                        text = CheckWord(LastWord[userId], msgArgs[0]);
-                        newWord = GetRandomEngWord(userId);
-                        text = $"{text}\r\nСледующее слово: {newWord}";
-                    }
-                    else
-                        text = COMMAND_LIST;
-                    break;
-            }
-            await Bot.SendTextMessageAsync(e.Message.From.Id, text);
+            //    default:
+            //        if (LastWord.ContainsKey(userId))
+            //        {
+            //            text = CheckWord(LastWord[userId], msgArgs[0]);
+            //            newWord = GetRandomEngWord(userId);
+            //            text = $"{text}\r\nСледующее слово: {newWord}";
+            //        }
+            //        else
+            //            text = COMMAND_LIST;
+            //        break;
+            //}
+            //await Bot.SendTextMessageAsync(e.Message.From.Id, text);
 
         }
 
-        private static string GetRandomEngWord(int userId)
-        {
-            var text = Tutor.GetRandomEngWord();
-            if (LastWord.ContainsKey(userId))
-                LastWord[userId] = text;
-            else
-                LastWord.Add(userId, text);
+        //private static string GetRandomEngWord(int userId)
+        //{
+        //    var text = Tutor.GetRandomEngWord();
+        //    if (LastWord.ContainsKey(userId))
+        //        LastWord[userId] = text;
+        //    else
+        //        LastWord.Add(userId, text);
 
-            return text;
-        }
+        //    return text;
+        //}
 
-        private static string CheckWord(string[] msgArr)
-        {
-            if (msgArr.Length != 3)
-                return "Неправильное количество аргументов. Их должно быть 2";
-            else
-            {
-                return CheckWord(msgArr[1], msgArr[2]);
-            }
-        }
+        //private static string CheckWord(string[] msgArr)
+        //{
+        //    if (msgArr.Length != 3)
+        //        return "Неправильное количество аргументов. Их должно быть 2";
+        //    else
+        //    {
+        //        return CheckWord(msgArr[1], msgArr[2]);
+        //    }
+        //}
 
-        private static string CheckWord(string eng, string rus)
-        {
-            if (Tutor.CheckWord(eng, rus))
-                return "Правильно!";
-            else
-            {
-                var correctAnswer = Tutor.Translate(eng);
-                return $"Неверно. Правильный ответ: \"{correctAnswer}\".";
-            }
-        }
+        //private static string CheckWord(string eng, string rus)
+        //{
+        //    if (Tutor.CheckWord(eng, rus))
+        //        return "Правильно!";
+        //    else
+        //    {
+        //        var correctAnswer = Tutor.Translate(eng);
+        //        return $"Неверно. Правильный ответ: \"{correctAnswer}\".";
+        //    }
+        //}
 
-        static string AddWords(String[] msgArr)
-        {
-            if (msgArr.Length != 3)
-                return "Неправильное количество аргументов. Их должно быть 2";
-            else
-            {
-                Tutor.AddWord(msgArr[1], msgArr[2]);
-                return "Новое слово добавлено в словарь";
-            }
-        }
+        //static string AddWords(String[] msgArr)
+        //{
+        //    if (msgArr.Length != 3)
+        //        return "Неправильное количество аргументов. Их должно быть 2";
+        //    else
+        //    {
+        //        Tutor.AddWord(msgArr[1], msgArr[2]);
+        //        return "Новое слово добавлено в словарь";
+        //    }
+        //}
 
     }
 }
