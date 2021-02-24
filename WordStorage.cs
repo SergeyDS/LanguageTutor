@@ -10,26 +10,41 @@ namespace LanguageTutor
         private const string _path = "wordstorage.txt";
         public Dictionary<string, string> GetAllWords()
         {
-            var dic = new Dictionary<string, string>();
-            if (File.Exists(_path))
+            try
             {
-                foreach (var line in File.ReadAllLines(_path))
+                var dic = new Dictionary<string, string>();
+                if (File.Exists(_path))
                 {
-                    var words = line.Split('|');
-                    if (words.Length == 2)
+                    foreach (var line in File.ReadAllLines(_path))
                     {
-                        dic.Add(words[0], words[1]);
+                        var words = line.Split('|');
+                        if (words.Length == 2)
+                        {
+                            dic.Add(words[0], words[1]);
+                        }
                     }
                 }
+                return dic;
             }
-            return dic;
+            catch (Exception ex)
+            {
+                Console.WriteLine("Не удалось считать файл со словарем");
+                return new Dictionary<string, string>();
+            }
         }
 
         public void AddWord(string eng, string rus)
         {
-            using (var writer = new StreamWriter(_path, true))
+            try
             {
-                writer.WriteLine($"{eng}|{rus}");
+                using (var writer = new StreamWriter(_path, true))
+                {
+                    writer.WriteLine($"{eng}|{rus}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Не удалось добавить слово {eng} в словарь");
             }
         }
     }

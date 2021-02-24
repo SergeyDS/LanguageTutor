@@ -16,7 +16,7 @@ namespace LanguageTutor
         {
             _dic = _storage.GetAllWords();
         }
-
+        //
         public void AddWord(string eng, string rus)
         {
             if (!_dic.ContainsKey(eng))
